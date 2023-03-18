@@ -1,0 +1,45 @@
+plugins {
+    id("java")
+
+    id("fabric-loom") version "1.1-SNAPSHOT"
+    id "org.jetbrains.kotlin.jvm" version "1.8.10"
+}
+
+group = "io.github.betterclient"
+version = "1.0"
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = targetCompatibility = 8
+
+
+var minecraftVer = "1.19.4";
+
+
+dependencies {
+    minecraft("com.mojang:minecraft:$minecraftVer")
+    mappings("net.fabricmc:yarn:$minecraftVer+build.1")
+
+    compileOnly("org.javassist:javassist:3.29.2-GA")
+    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10')
+
+    //make shit easier lolz
+    Set<String> apiModules = [
+            "fabric-api-base",
+            "fabric-key-binding-api-v1",
+            "fabric-networking-v0",
+            "fabric-resource-loader-v0"
+    ]
+
+    apiModules.forEach {
+        modImplementation(fabricApi.module(it, "0.42.0+1.16"))
+    }
+}
+
+jar {
+    manifest {
+        attributes["Premain-Class"] = "io.github.betterclient.agent.AgentMain"
+    }
+}
