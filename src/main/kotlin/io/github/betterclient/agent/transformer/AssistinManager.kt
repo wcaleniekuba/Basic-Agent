@@ -10,7 +10,11 @@ class AssistinManager {
     var assistins: MutableList<Class<*>> = object : ArrayList<Class<*>>() {
         override fun add(element: Class<*>): Boolean {
             if (!element.isAnnotationPresent(Assistin::class.java)) return false
-            transformers.add(AssistinTransformer(element))
+            transformers.add(
+                AssistinTransformer(
+                    element
+                )
+            )
             return super.add(element)
         }
     }
